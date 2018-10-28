@@ -10,19 +10,23 @@ namespace File.Import.Controllers
     public class CsvImportController : ControllerBase
     {
         private readonly ICsvProcessingService csvProcessingService;
+        private readonly ExcelProcessingService excelProcessingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvImportController" /> class.
         /// </summary>
         /// <param name="csvProcessingService">The CSV processing service.</param>
+        /// <param name="excelProcessingService">The excel processing service.</param>
         public CsvImportController(
-            ICsvProcessingService csvProcessingService)
+            ICsvProcessingService csvProcessingService,
+            ExcelProcessingService excelProcessingService)
         {
             this.csvProcessingService = csvProcessingService;
+            this.excelProcessingService = excelProcessingService;
         }
 
         /// <summary>
-        /// Posts the specified file.
+        /// Exports from CSV file.
         /// </summary>
         /// <param name="file">The file.</param>
         /// <returns></returns>
@@ -36,6 +40,23 @@ namespace File.Import.Controllers
             }
             
             return new ObjectResult(this.csvProcessingService.GetUsersFromCsv(file));
+        }
+
+        /// <summary>
+        /// Exports from excel file.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <returns></returns>
+        [HttpPost]
+        [SwaggerOperation("ExportFromExcelFile")]
+        public async Task<IActionResult> ExportFromExcelFile([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length <= 0)
+            {
+                return new BadRequestObjectResult("File cannot be empty.");
+            }
+
+            return new ObjectResult(this.excelProcessingService.GetUsersFromExcel(file));
         }
     }
 }

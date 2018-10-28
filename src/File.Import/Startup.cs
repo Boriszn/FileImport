@@ -40,6 +40,7 @@ namespace File.Import
             services.Configure<FormOptions>(x => { x.MultipartBodyLengthLimit = 400 * 1024 * 1024; });
 
             services.AddScoped<ICsvProcessingService, CsvProcessingService>();
+            services.AddScoped<IExcelProcessingService, ExcelProcessingService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
