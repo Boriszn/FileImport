@@ -5,7 +5,8 @@ namespace File.Import.ApiFilters
 {
     public class FileOperationFilter : IOperationFilter
     {
-        private const string UploadFileApiOperationKey = "uploadfile";
+        private const string ExportFromCsvFileKey = "exportfromcsvfile";
+        private const string ExportFromExcelFileKey = "exportfromexcelfile";
 
         /// <summary>
         /// Applies the specified operation.
@@ -14,7 +15,8 @@ namespace File.Import.ApiFilters
         /// <param name="context">The context.</param>
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            if (operation.OperationId.ToLower() == UploadFileApiOperationKey)
+            if (operation.OperationId.ToLower() == ExportFromCsvFileKey ||
+                operation.OperationId.ToLower() == ExportFromExcelFileKey)
             {
                 // Clear parameters
                 operation.Parameters.Clear();

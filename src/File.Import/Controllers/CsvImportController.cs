@@ -10,7 +10,7 @@ namespace File.Import.Controllers
     public class CsvImportController : ControllerBase
     {
         private readonly ICsvProcessingService csvProcessingService;
-        private readonly ExcelProcessingService excelProcessingService;
+        private readonly IExcelProcessingService excelProcessingService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvImportController" /> class.
@@ -19,7 +19,7 @@ namespace File.Import.Controllers
         /// <param name="excelProcessingService">The excel processing service.</param>
         public CsvImportController(
             ICsvProcessingService csvProcessingService,
-            ExcelProcessingService excelProcessingService)
+            IExcelProcessingService excelProcessingService)
         {
             this.csvProcessingService = csvProcessingService;
             this.excelProcessingService = excelProcessingService;
@@ -31,7 +31,7 @@ namespace File.Import.Controllers
         /// <param name="file">The file.</param>
         /// <returns></returns>
         [HttpPost]
-        [SwaggerOperation("UploadFile")]
+        [SwaggerOperation("ExportFromCsvFile")]
         public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
             if (file == null || file.Length <= 0)
@@ -47,7 +47,7 @@ namespace File.Import.Controllers
         /// </summary>
         /// <param name="file">The file.</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("excel")]
         [SwaggerOperation("ExportFromExcelFile")]
         public async Task<IActionResult> ExportFromExcelFile([FromForm] IFormFile file)
         {
