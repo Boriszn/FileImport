@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CsvHelper;
@@ -20,18 +21,28 @@ namespace File.Import.Services
         {
             var users = new List<User>();
 
-            // var hssfwb = new HSSFWorkbook(file.OpenReadStream());
+            try
+            {
+                var hssfWorkbook = new HSSFWorkbook(file.OpenReadStream());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
-            var xssfWorkbook = new XSSFWorkbook(file.OpenReadStream());
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(file.OpenReadStream());
 
             ISheet sheet = xssfWorkbook.GetSheetAt(0);
-
-            IRow headerRow = sheet.GetRow(0); //Get Header Row
+            
+            // Get Header Row
+            IRow headerRow = sheet.GetRow(0); 
             int cellCount = headerRow.LastCellNum;
 
-            for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++) //Read Excel File
+            // Get Others rows
+            for (int rowIndex = (sheet.FirstRowNum + 1); rowIndex <= sheet.LastRowNum; rowIndex++) 
             {
-                IRow row = sheet.GetRow(i);
+                IRow row = sheet.GetRow(rowIndex);
 
                 if (row == null)
                 {
@@ -43,14 +54,13 @@ namespace File.Import.Services
                     continue;
                 }
 
-                for (int j = row.FirstCellNum; j < cellCount; j++)
+                users.Add(new User
                 {
-                    if (row.GetCell(j) != null)
-                    {
-                        // 
-                        string cell = row.GetCell(j).ToString();
-                    }
-                }
+                    Company = row.GetCell(0).ToString(),
+                    FirstName = row.GetCell(1).ToString(),
+                    LastName = row.GetCell(2).ToString(),
+                    CompanyAddress = row.GetCell(3).ToString()
+                });
             }
 
             return users;
