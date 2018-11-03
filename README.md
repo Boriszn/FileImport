@@ -7,8 +7,8 @@ FileImport example solution. Contains upload file API with options to import fro
 - `/api/file/import` - CSV import API action example
 - `/api/file/import/excel` - XLS import API action example
 
-![alt text](https://github.com/Boriszn/api-csv.png "csv example")
-![alt text](https://github.com/Boriszn/api-excel.png "excel example")
+![alt text](https://raw.githubusercontent.com/Boriszn/FileImport/develop/assests/img/api-csv.png "csv example")
+![alt text](https://raw.githubusercontent.com/Boriszn/FileImport/develop/assests/img/api-excel.png "excel example")
 
 ## User libraries
 
